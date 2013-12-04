@@ -20,7 +20,7 @@ Dashboard
 
 
 For Openstack Compute Node:
-
+--------------------------
 Operating System : Ubuntu12.04 LTS
 NIC's:
 
@@ -34,7 +34,7 @@ Nova( nova-compute)
 Neutron ( ovs-agent)
 
 For Openstack Network Node:
-
+--------------------------
 Operating System : Ubuntu12.04 LTS
 NIC's:
 
