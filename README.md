@@ -1,4 +1,4 @@
-openstack-scripts
+openstack Havana Installation scripts for Ubuntu 12.04 LTS
 ================
 
 For Openstack Controller :
