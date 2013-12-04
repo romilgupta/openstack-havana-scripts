@@ -302,10 +302,10 @@ def install_and_configure_nova():
     add_to_conf(nova_conf, "DEFAULT", "logdir", "/var/log/nova")
     add_to_conf(nova_conf, "DEFAULT", "lock_path", "/var/lib/nova")
     add_to_conf(nova_conf, "DEFAULT", "root_helper", "sudo nova-rootwrap /etc/nova/rootwrap.conf")
-	  add_to_conf(nova_conf, "DEFAULT", "verbose", "True")
+    add_to_conf(nova_conf, "DEFAULT", "verbose", "True")
     add_to_conf(nova_conf, "DEFAULT", "debug", "True")
     add_to_conf(nova_conf, "DEFAULT", "rabbit_host", "127.0.0.1" )
-	  add_to_conf(nova_conf, "DEFAULT", "rpc_backend", "nova.rpc.impl_kombu" )
+    add_to_conf(nova_conf, "DEFAULT", "rpc_backend", "nova.rpc.impl_kombu" )
     add_to_conf(nova_conf, "DEFAULT", "sql_connection", "mysql://nova:nova@localhost/nova")
     add_to_conf(nova_conf, "DEFAULT", "glance_api_servers", "%s:9292" %ip_address)
     add_to_conf(nova_conf, "DEFAULT", "dhcpbridge_flagfile", "/etc/nova/nova.conf")
@@ -313,7 +313,7 @@ def install_and_configure_nova():
     add_to_conf(nova_conf, "DEFAULT", "auth_strategy", "keystone")
     add_to_conf(nova_conf, "DEFAULT", "novnc_enabled", "true")
     add_to_conf(nova_conf, "DEFAULT", "novncproxy_base_url", "http://%s:6080/vnc_auto.html" % ip_address)
-	  add_to_conf(nova_conf, "DEFAULT", "vncserver_proxyclient_address", ip_address_mgnt)
+    add_to_conf(nova_conf, "DEFAULT", "vncserver_proxyclient_address", ip_address_mgnt)
     add_to_conf(nova_conf, "DEFAULT", "novncproxy_port", "6080")
     add_to_conf(nova_conf, "DEFAULT", "vncserver_listen", "0.0.0.0")
     add_to_conf(nova_conf, "DEFAULT", "network_api_class", "nova.network.neutronv2.api.API")
@@ -336,7 +336,7 @@ def install_and_configure_nova():
 def install_and_configure_neutron():
     neutron_conf = "/etc/neutron/neutron.conf"
     neutron_paste_conf = "/etc/neutron/api-paste.ini"
-	  neutron_plugin_conf = "/etc/neutron/plugins/ml2/ml2_conf.ini"
+    neutron_plugin_conf = "/etc/neutron/plugins/ml2/ml2_conf.ini"
        
 
     execute_db_commnads("DROP DATABASE IF EXISTS neutron;")
@@ -346,11 +346,11 @@ def install_and_configure_neutron():
 
     execute("apt-get install neutron-server -y", True)
     execute("mkdir -p /etc/neutron/plugins/ml2",True)
-	  execute("touch /etc/neutron/plugins/ml2/ml2_conf.ini ", True)	
+    execute("touch /etc/neutron/plugins/ml2/ml2_conf.ini ", True)	
     add_to_conf(neutron_conf, "DEFAULT", "core_plugin", " neutron.plugins.ml2.plugin.Ml2Plugin")
     add_to_conf(neutron_conf, "DEFAULT", "service_plugins", " neutron.services.l3_router.l3_router_plugin.L3RouterPlugin")
     add_to_conf(neutron_conf, "database", "connection", " mysql://neutron:neutron@localhost/neutron")
-	  add_to_conf(neutron_conf, "DEFAULT", "verbose", "True")
+    add_to_conf(neutron_conf, "DEFAULT", "verbose", "True")
     add_to_conf(neutron_conf, "DEFAULT", "debug", "True")
     add_to_conf(neutron_conf, "DEFAULT", "auth_strategy", "keystone")
     add_to_conf(neutron_conf, "DEFAULT", "rabbit_host", "127.0.0.1")
@@ -365,11 +365,11 @@ def install_and_configure_neutron():
     add_to_conf(neutron_paste_conf, "filter:authtoken", "admin_user", "neutron")
     add_to_conf(neutron_paste_conf, "filter:authtoken", "admin_password", "neutron")
 	
-	  add_to_conf(neutron_plugin_conf, "ml2", "type_drivers", "vlan,vxlan")
-	  add_to_conf(neutron_plugin_conf, "ml2", "tenant_network_types", "vlan,vxlan")
-	  add_to_conf(neutron_plugin_conf, "ml2", "mechanism_drivers", "linuxbridge,openvswitch")
-  	add_to_conf(neutron_plugin_conf, "ml2_type_vlan", "network_vlan_ranges", "physnet1:2000:2999")
-	  add_to_conf(neutron_plugin_conf, "ml2_type_vxlan", "vni_ranges", "500:999")
+    add_to_conf(neutron_plugin_conf, "ml2", "type_drivers", "vlan,vxlan")
+    add_to_conf(neutron_plugin_conf, "ml2", "tenant_network_types", "vlan,vxlan")
+    add_to_conf(neutron_plugin_conf, "ml2", "mechanism_drivers", "linuxbridge,openvswitch")
+    add_to_conf(neutron_plugin_conf, "ml2_type_vlan", "network_vlan_ranges", "physnet1:2000:2999")
+    add_to_conf(neutron_plugin_conf, "ml2_type_vxlan", "vni_ranges", "500:999")
 	
     execute("sed -i 's/\/etc\/neutron\/plugins\/openvswitch\/ovs_neutron_plugin.ini/\/etc\/neutron\/plugins\/ml2\/ml2_conf.ini/g' /etc/default/neutron-server")
 
