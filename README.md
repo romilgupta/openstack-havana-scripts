@@ -1,4 +1,4 @@
-openstack-script
+openstack-scripts
 ================
 
 For Openstack Controller :
