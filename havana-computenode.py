@@ -111,8 +111,8 @@ def initialize_system():
     delete_file("/etc/apt/sources.list.d/havana.list")
     execute("echo deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/havana main >> /etc/apt/sources.list.d/havana.list")
     execute("apt-get update -y", True)
-	  execute("apt-get install vlan bridge-utils -y", True)
-	  execute("sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf")
+    execute("apt-get install vlan bridge-utils -y", True)	  
+    execute("sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf")
 
     global iniparse
     if iniparse is None:
@@ -130,13 +130,13 @@ ip_address = raw_input('Controller IP: ')
 ip_address_mgnt= raw_input('Controller Mgmt IP: ')
 
 def install_and_configure_ntp():
-	  execute("apt-get install ntp -y")
-	  execute("sed -i 's/server 0.ubuntu.pool.ntp.org/#server 0.ubuntu.pool.ntp.org/g' /etc/ntp.conf")
-	  execute("sed -i 's/server 1.ubuntu.pool.ntp.org/#server 1.ubuntu.pool.ntp.org/g' /etc/ntp.conf")
-	  execute("sed -i 's/server 2.ubuntu.pool.ntp.org/#server 2.ubuntu.pool.ntp.org/g' /etc/ntp.conf")
-	  execute("sed -i 's/server 3.ubuntu.pool.ntp.org/#server 3.ubuntu.pool.ntp.org/g' /etc/ntp.conf")
-	  execute("sed -i 's/server ntp.ubuntu.com/server %s/g' /etc/ntp.conf" %ip_address)
-	  execute("service ntp restart", True)	
+    execute("apt-get install ntp -y")
+    execute("sed -i 's/server 0.ubuntu.pool.ntp.org/#server 0.ubuntu.pool.ntp.org/g' /etc/ntp.conf")
+    execute("sed -i 's/server 1.ubuntu.pool.ntp.org/#server 1.ubuntu.pool.ntp.org/g' /etc/ntp.conf")
+    execute("sed -i 's/server 2.ubuntu.pool.ntp.org/#server 2.ubuntu.pool.ntp.org/g' /etc/ntp.conf")
+    execute("sed -i 's/server 3.ubuntu.pool.ntp.org/#server 3.ubuntu.pool.ntp.org/g' /etc/ntp.conf")
+    execute("sed -i 's/server ntp.ubuntu.com/server %s/g' /etc/ntp.conf" %ip_address)
+    execute("service ntp restart", True)	
 
 def install_and_configure_nova():
     nova_conf = "/etc/nova/nova.conf"
@@ -195,11 +195,11 @@ def install_and_configure_ovs():
     neutron_paste_conf = "/etc/neutron/api-paste.ini"
     neutron_plugin_conf = "/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini"
     
-	  execute("apt-get install openvswitch-switch openvswitch-datapath-dkms -y", True)
+    execute("apt-get install openvswitch-switch openvswitch-datapath-dkms -y", True)
 	
     execute("ovs-vsctl --may-exist add-br br-int")
-	  execute("ovs-vsctl --may-exist add-br br-eth2") 
-	  execute("ovs-vsctl --may-exist add-port br-eth2 eth2")
+    execute("ovs-vsctl --may-exist add-br br-eth2") 
+    execute("ovs-vsctl --may-exist add-port br-eth2 eth2")
   
     execute("apt-get install neutron-plugin-openvswitch-agent -y", True)
 
@@ -222,8 +222,8 @@ def install_and_configure_ovs():
     add_to_conf(neutron_plugin_conf, "DATABASE", "sql_connection", "mysql://neutron:neutron@%s/neutron"%ip_address_mgnt)
     add_to_conf(neutron_plugin_conf, "OVS", "bridge_mappings", "physnet1:br-eth2")
     add_to_conf(neutron_plugin_conf, "OVS", "tenant_network_type", "vlan")
-   	add_to_conf(neutron_plugin_conf, "OVS", "network_vlan_ranges", "physnet1:1000:2999")
-	  add_to_conf(neutron_plugin_conf, "OVS", "integration_bridge", "br-int")
+    add_to_conf(neutron_plugin_conf, "OVS", "network_vlan_ranges", "physnet1:1000:2999")
+    add_to_conf(neutron_plugin_conf, "OVS", "integration_bridge", "br-int")
 
     execute("service neutron-plugin-openvswitch-agent restart", True)
    
