@@ -158,6 +158,7 @@ def install_and_configure_neutron():
     add_to_conf(neutron_paste_conf, "filter:authtoken", "admin_user", "neutron")
     add_to_conf(neutron_paste_conf, "filter:authtoken", "admin_password", "neutron")
 
+    add_to_conf(neutron_plugin_conf, "securitygroup", "firewall_driver", "neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver")
     add_to_conf(neutron_plugin_conf, "DATABASE", "sql_connection", "mysql://neutron:neutron@%s/neutron"%ip_address_mgnt)
     add_to_conf(neutron_plugin_conf, "OVS", "bridge_mappings", "physnet1:br-eth2")
     add_to_conf(neutron_plugin_conf, "OVS", "tenant_network_type", "vlan")
