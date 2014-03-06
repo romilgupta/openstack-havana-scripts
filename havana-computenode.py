@@ -164,7 +164,9 @@ def install_and_configure_nova():
     add_to_conf(nova_conf, "DEFAULT", "glance_api_servers", "%s:9292" %ip_address_mgnt)
     add_to_conf(nova_conf, "DEFAULT", "compute_driver", "libvirt.LibvirtDriver")
     add_to_conf(nova_conf, "DEFAULT", "dhcpbridge_flagfile", "/etc/nova/nova.conf")
-    add_to_conf(nova_conf, "DEFAULT", "firewall_driver", "nova.virt.libvirt.firewall.IptablesFirewallDriver")
+    add_to_conf(nova_conf, "DEFAULT", "firewall_driver", "nova.virt.firewall.NoopFirewallDriver")
+    add_to_conf(nova_conf, "DEFAULT", "security_group_api", "neutron")
+    add_to_conf(nova_conf, "DEFAULT", "libvirt_vif_driver", "nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver")
     add_to_conf(nova_conf, "DEFAULT", "root_helper", "sudo nova-rootwrap /etc/nova/rootwrap.conf")
     add_to_conf(nova_conf, "DEFAULT", "compute_driver", "libvirt.LibvirtDriver")
     add_to_conf(nova_conf, "DEFAULT", "auth_strategy", "keystone")
@@ -219,6 +221,7 @@ def install_and_configure_ovs():
     add_to_conf(neutron_paste_conf, "filter:authtoken", "admin_user", "neutron")
     add_to_conf(neutron_paste_conf, "filter:authtoken", "admin_password", "neutron")
 
+    add_to_conf(neutron_plugin_conf, "securitygroup", "firewall_driver", "neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver")
     add_to_conf(neutron_plugin_conf, "DATABASE", "sql_connection", "mysql://neutron:neutron@%s/neutron"%ip_address_mgnt)
     add_to_conf(neutron_plugin_conf, "OVS", "bridge_mappings", "physnet1:br-eth2")
     add_to_conf(neutron_plugin_conf, "OVS", "tenant_network_type", "vlan")
