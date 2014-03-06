@@ -309,7 +309,6 @@ def install_and_configure_nova():
     add_to_conf(nova_conf, "DEFAULT", "sql_connection", "mysql://nova:nova@localhost/nova")
     add_to_conf(nova_conf, "DEFAULT", "glance_api_servers", "%s:9292" %ip_address)
     add_to_conf(nova_conf, "DEFAULT", "dhcpbridge_flagfile", "/etc/nova/nova.conf")
-    add_to_conf(nova_conf, "DEFAULT", "firewall_driver", "nova.virt.libvirt.firewall.IptablesFirewallDriver")   
     add_to_conf(nova_conf, "DEFAULT", "auth_strategy", "keystone")
     add_to_conf(nova_conf, "DEFAULT", "novnc_enabled", "true")
     add_to_conf(nova_conf, "DEFAULT", "novncproxy_base_url", "http://%s:6080/vnc_auto.html" % ip_address)
@@ -370,7 +369,8 @@ def install_and_configure_neutron():
     add_to_conf(neutron_plugin_conf, "ml2", "mechanism_drivers", "linuxbridge,openvswitch")
     add_to_conf(neutron_plugin_conf, "ml2_type_vlan", "network_vlan_ranges", "physnet1:2000:2999")
     add_to_conf(neutron_plugin_conf, "ml2_type_vxlan", "vni_ranges", "500:999")
-	
+    add_to_conf(neutron_plugin_conf, "securitygroup", "firewall_driver", "neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver")
+
     execute("sed -i 's/\/etc\/neutron\/plugins\/openvswitch\/ovs_neutron_plugin.ini/\/etc\/neutron\/plugins\/ml2\/ml2_conf.ini/g' /etc/default/neutron-server")
 
     execute("service neutron-server restart", True)
